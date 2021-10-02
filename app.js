@@ -1,4 +1,10 @@
-let initialState = {}
+let state = {}
+
+
+//testing
+
+
+
 
 function buildInitialState () {
 
@@ -24,5 +30,5 @@ setInterval (tick, 1000 / 30)
 
 $(window).on(`keydown`, function (event) {
 
-    
+
 })

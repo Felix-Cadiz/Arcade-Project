@@ -1,1 +1,27 @@
-/* testing */
+* {
+    box-sizing: border-box;
+}
+
+main {
+    display: flex; 
+    flex-wrap: wrap;
+    border: red 3px solid;
+    height: 55vh;
+    width: 55vh;
+    justify-content: center;
+    align-content: flex-start;
+}
+
+.tile {
+    border: 1px black solid;
+    height: 30px;
+    width: 30px;
+}
+
+.tile:nth-child(2n) {
+    background: rgba(33, 14, 104, 0.61);
+}
+
+.tile:nth-child(2n + 1) {
+    background: rgba(58, 43, 112, 0.61);
+}

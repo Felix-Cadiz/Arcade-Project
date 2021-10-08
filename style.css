@@ -1,27 +1,59 @@
 * {
     box-sizing: border-box;
+    background-color: oldlace;
 }
 
 main {
     display: flex; 
     flex-wrap: wrap;
-    border: red 3px solid;
-    height: 55vh;
-    width: 55vh;
-    justify-content: center;
+    justify-content: left;
+    align-items: center;
     align-content: flex-start;
+    /* border: black 1px solid; */
+    height: 60vh;
+    width: 60vh;
 }
 
 .tile {
     border: 1px black solid;
-    height: 30px;
-    width: 30px;
+    height: 4.5vh;
+    width: 4.5vh;
 }
 
 .tile:nth-child(2n) {
-    background: rgba(33, 14, 104, 0.61);
+    background-color: rgba(33, 14, 104, 0.61);
 }
 
 .tile:nth-child(2n + 1) {
-    background: rgba(58, 43, 112, 0.61);
+    background-color: rgba(58, 43, 112, 0.61);
+}
+
+.snake {
+    background-color: hotpink;
+    border-radius: 50%;
+    height: 4.5vh;
+    width: 4.5vh;
+
+}
+
+
+.food {
+    background-color: yellow;
+    border: 1px solid black;
+    height: 4.5vh;
+    width: 4.5vh;
+    border-radius: 50%;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+BUTTON {
+    background-color: rgba(9, 119, 42, 0.61);
+    padding: 2vh;
+    margin: 2vh;
 }

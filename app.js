@@ -2,21 +2,18 @@
 
 const state = {
     "score": 0,
+    "board": [],
     "direction": {
-        "x": 0,
-        "y": 1,
-    }
-    "snakeBody": {
-        head1: [3,6],
-        body1: [2,6],
-        body2: [1,6],
-        body3: [0,6],
-    }
+        "col": 1,
+        "row": 0,
+    },
+    "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
 }
+
+state.snakeHead = state.snakeBody[0]
+
 const fps = 3
 const boardSpaces = 13
-// const snakeBody = [ [3, 6], [2, 6], [1, 6], [0, 6] ]
-const snakeHead = snakeBody [0]
 
 // ********** DOM Selectors **********
 
@@ -29,7 +26,7 @@ let gameOverElement = document.getElementById("gameOver")
 // ********** innerHTML Lines **********
 
 function score () {
-    if (snakeHead === "food") {
+    if (state.snakeHead === "food") {
         state.score++;
         scoreElement.innerHTML = `<div>Score: ${state.score}</div>`;
     }
@@ -79,7 +76,8 @@ function renderState () {
                 tileElement.classList.remove("tile")
                 tileElement.innerText = ""
             }
-            if (tile === "snake") {
+            const coords = [i,j]
+            if (state.snakeBody.includes(coords) || tile === "snake") {
                 tileElement.classList.add("snake")
                 tileElement.classList.remove("tile")
                 tileElement.innerText = ""
@@ -88,26 +86,25 @@ function renderState () {
             boardElement.appendChild(tileElement)
         }
     }
+    playerSnake()
 }
 
 const gameOverParameters = () => {
-    if (snakeHead === [-1,true] || [true, -1] || [boardSpaces.length, true] [true, boardSpaces.length]) {
-        //Some sort of Game over screen
+    if (state.snakeHead === [-1,true] || [true, -1] || [boardSpaces.length, true] || [true, boardSpaces.length]) {
         gameOver()
     }
-    if (snakeBody.includes(snakeHead)) {
-        //Some sort of Game over screen
+    if (snakeBody.includes(state.snakeHead)) {
         gameOver()
     }
 }
 
 // ********** Snake **********
 
-function setInitialSnake () {
-    let snake = snakeBody.body
+const setInitialSnake = () => {
+    let snake = state.snakeBody
     // console.log(snake)
-    for (let i = 0; i < snakeBody.length; i++) {
-        let position = snakeBody[i]
+    for (let i = 0; i < state.snakeBody.length; i++) {
+        let position = state.snakeBody[i]
         // console.log(position)
         // console.log(state.board)
         state.board[position[0]][position[1]] = "snake"
@@ -116,32 +113,29 @@ function setInitialSnake () {
 }
 
 
-// Snake will become a function
-// Array of Arrays for Snake body
-// We will UNSHIFT the new direction and POP the tail
-
-
-
-// When the first move is made, initilize this function
-
 const playerSnake = () => {
-    let currentSnakeBody = snakeBody.pop()
-    console.log(currentSnakeBody)
-    currentSnakeBody = currentSnakeBody.unshift()
+    state.snakeBody.pop()
+    const newSnakeHeadCol = state.snakeHead[0] + state.direction.col
+    const newSnakeHeadRow = state.snakeHead[1] + state.direction.row
+    state.snakeHead = [newSnakeHeadCol, newSnakeHeadRow]
+    state.snakeBody.unshift(state.snakeHead)
 }
 
-playerSnake()
 
-
+// Food is still able to appear on snake
 
 function food () {
     let appleColumn = Math.floor(Math.random() * boardSpaces)
     let appleRow = Math.floor(Math.random() * boardSpaces)
     state.board[appleRow][appleColumn] = "food"
-    if ("food" == "snake" ) {
+    if (state.snakeBody.includes("food")) {
         food()
     }
     console.log (appleRow, appleColumn)
+    if (state.snakeHead === "food") {
+        // Somehow extend snake body by 1
+        // Call food again
+    }
     renderState()
 }
 
@@ -172,10 +166,11 @@ resetState ()
 
 function tick () {
     console.log(tick)
+    playerSnake()
     renderState ()
 }
 
-// setInterval (tick, 1000 / fps) 
+setInterval (tick, 1000 / fps) 
 
 
 

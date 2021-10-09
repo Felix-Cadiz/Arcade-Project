@@ -29,27 +29,22 @@ main {
 }
 
 .snake {
-    background-color: hotpink;
-    border-radius: 50%;
+    background-image: url(SnapeFace.jpeg);
+    background-size: 120%;
+    background-position: right;
+    background-repeat: no-repeat;
+    /* border-radius: 50%; */
     height: 4.5vh;
     width: 4.5vh;
-
 }
 
 
 .food {
-    background-color: yellow;
-    border: 1px solid black;
+    background-image: url(Potion.jpeg);
+    background-size: 100%;
+    filter: invert(1);
     height: 4.5vh;
     width: 4.5vh;
-    border-radius: 50%;
-    animation: blinker 1s linear infinite;
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
-    }
 }
 
 BUTTON {

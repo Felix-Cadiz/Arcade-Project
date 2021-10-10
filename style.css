@@ -1,22 +1,45 @@
+@import url('http://fonts.cdnfonts.com/css/harry-potter');
+
 * {
     box-sizing: border-box;
-    background-color: oldlace;
+    /* background-color: oldlace; */
 }
 
 body {
+    font-family: 'Harry Potter', sans-serif;
+    color: white;
+    letter-spacing: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: oldlace;
+    background-color: rgba(0, 0, 0, 0.70);
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    line-height: 1.6;
+    background-image: linear-gradient(rgb(24, 15, 15), rgb(136, 3, 3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+h2 {
+    color: rgb(136, 3, 3)
 }
 
 main {
+    background-image: url(projectBackground.jpeg);
+    background-size: 180%;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex; 
     flex-wrap: wrap;
     justify-content: left;
     align-items: center;
     align-content: flex-start;
-    /* border: black 1px solid; */
     height: 58.5vh;
     width: 58.5vh;
 }
@@ -28,11 +51,11 @@ main {
 }
 
 .tile:nth-child(2n) {
-    background-color: rgba(33, 14, 104, 0.61);
+    background-color: rgba(33, 14, 104, 0.40);
 }
 
 .tile:nth-child(2n + 1) {
-    background-color: rgba(58, 43, 112, 0.61);
+    background-color: rgba(58, 43, 112, 0.40);
 }
 
 .snake {
@@ -47,8 +70,10 @@ main {
 
 
 .food {
-    background-image: url(Potion.jpeg);
-    background-size: 100%;
+    background-image: url(potion.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70%;
     filter: invert(1);
     height: 4.5vh;
     width: 4.5vh;

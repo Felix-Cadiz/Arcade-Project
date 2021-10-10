@@ -25,10 +25,13 @@ let gameOverElement = document.getElementById("gameOver")
 
 // ********** innerHTML Lines **********
 
-function score () {
+const score = () => {
     if (state.snakeHead === "food") {
-        state.score++;
-        scoreElement.innerHTML = `<div>Score: ${state.score}</div>`;
+        state.score++
+        scoreElement.innerHTML = `<div>Score: ${state.score}</div>`
+        state.snakeBody.push()
+        // Somehow extend snake body by 1
+        food()
     }
 }
 
@@ -86,7 +89,6 @@ function renderState () {
             boardElement.appendChild(tileElement)
         }
     }
-    playerSnake()
 }
 
 const gameOverParameters = () => {
@@ -127,14 +129,10 @@ const playerSnake = () => {
 function food () {
     let appleColumn = Math.floor(Math.random() * boardSpaces)
     let appleRow = Math.floor(Math.random() * boardSpaces)
+    // console.log (appleRow, appleColumn)
     state.board[appleRow][appleColumn] = "food"
     if (state.snakeBody.includes("food")) {
         food()
-    }
-    console.log (appleRow, appleColumn)
-    if (state.snakeHead === "food") {
-        // Somehow extend snake body by 1
-        // Call food again
     }
     renderState()
 }
@@ -159,7 +157,6 @@ resetState ()
 
 
 
-
 // ********** Logic ********** 
 
 // Time Function
@@ -168,34 +165,35 @@ function tick () {
     console.log(tick)
     playerSnake()
     renderState ()
+
 }
 
-setInterval (tick, 1000 / fps) 
+
+setInterval (tick, 1000 / 3) 
 
 
 
 document.addEventListener("keydown", function (event) {
     console.log(event.code)
-    if (event.key === "ArrowLeft" || event.key === "a" ) {
+    if (event.key === "ArrowLeft" && !(state.direction.col === 0 && state.direction.row === 1)) {
         // console.log("Left arrow pressed")
-        state.direction.x = -1
-        state.direction.y = 0
-        console.log(state)
-    } else if (event.key === "ArrowUp" || event.key === "w") {
+        state.direction.col = 0
+        state.direction.row = -1
+        console.log(state.direction)
+    } else if (event.key === "ArrowUp" && !(state.direction.col === 1 && state.direction.row === 0)) {
         // console.log("Up arrow pressed")
-        state.direction.x = 0
-        state.direction.y = 1
-        console.log(state)
-    } else if (event.key === "ArrowRight" || event.key === "d") {
+        state.direction.col = -1
+        state.direction.row = 0
+        console.log(state.direction)
+    } else if (event.key === "ArrowRight" && !(state.direction.col === 0 && state.direction.row === -1)) {
         // console.log("Right arrow pressed")
-        state.direction.x = 1
-        state.direction.y = 0
-        console.log(state)
-    } else if (event.key === "ArrowDown" || event.key === "s") {
+        state.direction.col = 0
+        state.direction.row = 1
+        console.log(state.direction)
+    } else if (event.key === "ArrowDown" && !(state.direction.col === -1 && state.direction.row === 0)) {
         // console.log("Down arrow pressed")
-        state.direction.x = 0
-        state.direction.y = -1
-        console.log(state)
+        state.direction.col = 1
+        state.direction.row = 0
+        console.log(state.direction)
     }
-}
-)
+})

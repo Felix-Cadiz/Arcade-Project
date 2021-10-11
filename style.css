@@ -2,6 +2,7 @@
 
 * {
     box-sizing: border-box;
+    text-align: center;
 }
 
 .inactive {
@@ -27,14 +28,16 @@ body {
 h1 {
     text-align: center;
     line-height: 1.6;
-    background-image: linear-gradient(rgb(196, 188, 188), rgb(231, 5, 5));
+    background-image: linear-gradient(rgb(212, 212, 212), rgb(231, 5, 5));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
 h2 {
-    color: rgb(231, 5, 5)
+    color: rgb(231, 5, 5);
+    background-color: rgba(5, 1, 20, 0.5);
+    padding: 1vh;
 }
 
 .inactive {

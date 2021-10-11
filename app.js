@@ -1,4 +1,4 @@
-// ********** Global Variables **********
+// ********** State **********
 
 let state = {
     "score": 0,
@@ -11,11 +11,6 @@ let state = {
     "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
 }
 
-state.snakeHead = state.snakeBody[0];
-
-const fps = 1
-const boardSpaces = 13
-
 // ********** DOM Selectors **********
 
 let boardElement = document.getElementById("board")
@@ -23,11 +18,20 @@ let scoreElement = document.getElementById("score")
 let gameOverElement = document.getElementById("gameOver")
 let startElement = document.getElementById("startElement")
 let playAgainElement = document.getElementById("playAgainElement")
+let snakeSpeedElement = document.getElementById("snakeSpeedElement")
+
+// ********** Constant Variables **********
+
+state.snakeHead = state.snakeBody[0];
+
+const fps = 5
+// snakeSpeedElement
+const boardSpaces = 13
 
 // ********** innerHTML Lines **********
 
 const pressButtonStart = () => {
-    state.gameInterval = setInterval (tick, 1000 / fps)
+    state.gameInterval = setInterval(tick, 1000 / fps)
 }
 
 const start = () => {
@@ -35,10 +39,6 @@ const start = () => {
     document.body.appendChild(startElement)
     startElement.addEventListener("click", pressButtonStart)
     startElement.addEventListener("click", inactiveStartElement)
-}
-
-function inactiveStartElement () {
-    startElement.classList.add("inactive")
 }
 
 const playAgain = () => {
@@ -60,11 +60,14 @@ console.log(state.snakeHead)
 
 function gameOverParameters() {
     console.log(state.snakeHead)
-    if (state.snakeHead[0] < 0 || state.snakeHead[0] > boardSpaces - 1|| state.snakeHead[1] < 0 || state.snakeHead[1] > boardSpaces - 1) {
-        clearInterval(state.gameInterval)
-        gameOver()
+    for (let i = 1; i < state.snakeBody.length; i++) {
+        let deathCheck = state.snakeBody[i]
+        if (state.snakeHead === deathCheck) {
+            gameOver()
+        }
     }
-    if (state.snakeHead.includes(state.snakeHead)) {
+    if (positionOutOfBounds(state.snakeHead[0], state.snakeHead[1])) {
+        clearInterval(state.gameInterval)
         gameOver()
     }
 }
@@ -74,12 +77,6 @@ function gameOver () {
     inactiveGameOver()
     gameOverElement.innerHTML = `<div>Game Over. Your final score is ${state.score}. <br> Would you like to play again?</div>`
 }
-
-function inactiveGameOver () {
-    gameOverElement.classList.remove("inactive")
-}
-
-
 
 // ********** Board Items **********
 
@@ -145,10 +142,12 @@ const setInitialSnake = () => {
         let position = state.snakeBody[i]
         // console.log(position)
         // console.log(state.board)
-        state.board[position[0]][position[1]] = "snake"
+        if (!positionOutOfBounds(position[0], position[1])) state.board[position[0]][position[1]] = "snake"
     }
     renderBoard()
 }
+
+
 
 const playerSnake = () => {
     state.snakeBody.pop()
@@ -169,7 +168,21 @@ const renderState = () => {
     gameOverParameters()
 }
 
-// ********** Logic ********** 
+// ********** Helper Functions **********
+
+function inactiveStartElement () {
+    startElement.classList.add("inactive")
+}
+
+function inactiveGameOver () {
+    gameOverElement.classList.remove("inactive")
+}
+
+const positionOutOfBounds = (x, y) => {
+    return (x < 0 || x > boardSpaces - 1 || y < 0 || y > boardSpaces - 1)
+}
+
+// ********** Page Render - Ticks - Set Interval Results ********** 
 
 function tick () {
     // console.log(tick)
@@ -200,8 +213,6 @@ function newGame () {
     start ()
 }
 
-newGame()
-
 // ********** Event Listeners **********
 
 playAgainElement.addEventListener("click", newGame)
@@ -230,3 +241,7 @@ document.addEventListener("keydown", function (event) {
         // console.log(state.direction)
     }
 })
+
+// ********** Game Start! **********
+
+newGame()

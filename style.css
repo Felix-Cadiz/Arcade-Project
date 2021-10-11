@@ -36,12 +36,7 @@ h1 {
 
 h2 {
     color: rgb(231, 5, 5);
-    background-color: rgba(5, 1, 20, 0.5);
     padding: 1vh;
-}
-
-.inactive {
-    display: none;
 }
 
 main {
@@ -51,10 +46,10 @@ main {
     background-repeat: no-repeat;
     display: flex; 
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     align-content: flex-start;
-    height: 58.5vh;
+    height: 58.3vh;
     width: 58.5vh;
 }
 
@@ -83,12 +78,11 @@ main {
     width: 4.5vh;
 }
 
-
 .food {
     background-image: url(potion.jpeg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 70%;
+    background-size: 75%;
     filter: invert(1);
     height: 4.5vh;
     width: 4.5vh;

@@ -4,11 +4,12 @@ let state = {
     "score": 0,
     "board": [],
     "gameInterval": null,
+    "food": [],
     "direction": {
         "col": 1,
         "row": 0,
     },
-    "snakeBody": [ [6, 6], [5, 6], [4, 6], [3, 6], [2, 6], [1, 6], [0, 6] ],
+    "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
 }
 
 // ********** DOM Selectors **********
@@ -18,15 +19,12 @@ let scoreElement = document.getElementById("score")
 let gameOverElement = document.getElementById("gameOver")
 let startElement = document.getElementById("startElement")
 let playAgainElement = document.getElementById("playAgainElement")
-let snakeSpeedElement = document.getElementById("snakeSpeedElement")
 
 // ********** Constant Variables **********
 
-state.snakeHead = state.snakeBody[0];
-
 const fps = 5
-// snakeSpeedElement
 const boardSpaces = 13
+state.snakeHead = state.snakeBody[0];
 
 // ********** innerHTML Lines **********
 
@@ -47,22 +45,25 @@ const playAgain = () => {
 }
 
 const score = () => {
-    if (state.snakeHead === "food") {
+    let snakeHeadx = state.snakeHead[0]
+    let snakeHeady = state.snakeHead[1]
+    if (snakeHeadx === "food"[0] && snakeHeady === "food"[1]) {
         state.score++
         scoreElement.innerHTML = `<div>Score: ${state.score}</div>`
-        state.snakeBody.push()
-        // Somehow extend snake body by 1
+        // Keep removed element from playerSnake pop
+        // state.snakeBody.push()
         food()
     }
 }
 
-console.log(state.snakeHead)
-
 function gameOverParameters() {
-    console.log(state.snakeHead)
+    // console.log(state.snakeHead)
+    let snakeHeadx = state.snakeHead[0]
+    let snakeHeady = state.snakeHead[1]
     for (let i = 1; i < state.snakeBody.length; i++) {
         let deathCheck = state.snakeBody[i]
-        if (state.snakeHead === deathCheck) {
+        if (snakeHeadx === deathCheck[0] && snakeHeady === deathCheck[1]) {
+            clearInterval(state.gameInterval)
             gameOver()
         }
     }
@@ -105,8 +106,6 @@ function renderBoard () {
                 tileElement.classList.remove("tile")
                 tileElement.innerText = ""
             }
-            // const coords = [i,j]
-            // state.snakeBody.includes(coords) || 
             if (tile === "snake") {
                 tileElement.classList.add("snake")
                 tileElement.classList.remove("tile")
@@ -121,16 +120,14 @@ function renderBoard () {
 // ********** Food **********
 
 // Food is still able to appear on snake
+// Food class is lost after render. Unknown how to keep it in state.
 
-const food = () => {
+function food () {
     let appleRow = Math.floor(Math.random() * boardSpaces)
     let appleColumn = Math.floor(Math.random() * boardSpaces)
     console.log (appleRow, appleColumn)
-    state.board[[appleRow][appleColumn]] = "food"
+    state.board[appleRow][appleColumn] = "food"
     renderBoard()
-    // if (state.snakeBody.includes("food")) {
-    //     food()
-    // }
 }
 
 // ********** Snake **********
@@ -141,13 +138,10 @@ const setInitialSnake = () => {
     for (let i = 0; i < state.snakeBody.length; i++) {
         let position = state.snakeBody[i]
         // console.log(position)
-        // console.log(state.board)
         if (!positionOutOfBounds(position[0], position[1])) state.board[position[0]][position[1]] = "snake"
     }
     renderBoard()
 }
-
-
 
 const playerSnake = () => {
     state.snakeBody.pop()
@@ -156,16 +150,6 @@ const playerSnake = () => {
     state.snakeHead = [newSnakeHeadCol, newSnakeHeadRow]
     state.snakeBody.unshift(state.snakeHead)
     renderState()
-}
-
-const renderState = () => {
-    state.board = []
-    state.score = 0
-    buildState ()
-    score ()
-    renderBoard()
-    setInitialSnake ()
-    gameOverParameters()
 }
 
 // ********** Helper Functions **********
@@ -184,6 +168,17 @@ const positionOutOfBounds = (x, y) => {
 
 // ********** Page Render - Ticks - Set Interval Results ********** 
 
+const renderState = () => {
+    state.board = []
+    state.score = 0
+    state.food = "food"
+    buildState ()
+    score ()
+    renderBoard()
+    setInitialSnake ()
+    gameOverParameters()
+}
+
 function tick () {
     // console.log(tick)
     renderBoard ()
@@ -197,12 +192,13 @@ function newGame () {
     state = {
         "score": 0,
         "board": [],
+        "food": [],
         "gameInterval": null,
         "direction": {
             "col": 1,
             "row": 0,
         },
-        "snakeBody": [ [6, 6], [5, 6], [4, 6], [3, 6], [2, 6], [1, 6], [0, 6] ],
+        "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
     }
     state.snakeHead = state.snakeBody[0],
     buildState ()

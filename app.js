@@ -1,6 +1,6 @@
 // ********** Global Variables **********
 
-const state = {
+let state = {
     "score": 0,
     "board": [],
     "gameInterval": null,
@@ -13,7 +13,7 @@ const state = {
 
 state.snakeHead = state.snakeBody[0];
 
-const fps = 3
+const fps = 1
 const boardSpaces = 13
 
 // ********** DOM Selectors **********
@@ -34,14 +34,11 @@ const start = () => {
     startElement.innerHTML = "Start Game!"
     document.body.appendChild(startElement)
     startElement.addEventListener("click", pressButtonStart)
-    startElement.addEventListener("click", increaseSpeed)
+    startElement.addEventListener("click", inactiveStartElement)
 }
 
-// Each click will increase the speed by fps variable by 3.
-const increaseSpeed = () => {
-    if (startElement.innerHTML === "Start Game!") {
-    startElement.innerHTML = "Press to Increase Speed!"
-    }
+function inactiveStartElement () {
+    startElement.classList.add("inactive")
 }
 
 const playAgain = () => {
@@ -59,18 +56,27 @@ const score = () => {
     }
 }
 
+console.log(state.snakeHead)
+
 function gameOverParameters() {
-    if (state.snakeHead[0] === undefined || state.snakeHead[1] === undefined) {
+    console.log(state.snakeHead)
+    if (state.snakeHead[0] < 0 || state.snakeHead[0] > boardSpaces - 1|| state.snakeHead[1] < 0 || state.snakeHead[1] > boardSpaces - 1) {
+        clearInterval(state.gameInterval)
         gameOver()
     }
-    // if (state.snakeBody.includes(state.snakeHead)) {
-    //     gameOver()
-    // }
+    if (state.snakeHead.includes(state.snakeHead)) {
+        gameOver()
+    }
 }
 
 function gameOver () {
     state.gameInterval = null
+    inactiveGameOver()
     gameOverElement.innerHTML = `<div>Game Over. Your final score is ${state.score}. <br> Would you like to play again?</div>`
+}
+
+function inactiveGameOver () {
+    gameOverElement.classList.remove("inactive")
 }
 
 
@@ -115,6 +121,21 @@ function renderBoard () {
     }
 }
 
+// ********** Food **********
+
+// Food is still able to appear on snake
+
+const food = () => {
+    let appleRow = Math.floor(Math.random() * boardSpaces)
+    let appleColumn = Math.floor(Math.random() * boardSpaces)
+    console.log (appleRow, appleColumn)
+    state.board[[appleRow][appleColumn]] = "food"
+    renderBoard()
+    // if (state.snakeBody.includes("food")) {
+    //     food()
+    // }
+}
+
 // ********** Snake **********
 
 const setInitialSnake = () => {
@@ -138,20 +159,6 @@ const playerSnake = () => {
     renderState()
 }
 
-
-// Food is still able to appear on snake
-
-const food = () => {
-    let appleColumn = Math.floor(Math.random() * boardSpaces)
-    let appleRow = Math.floor(Math.random() * boardSpaces)
-    console.log (appleRow, appleColumn)
-    state.board[[appleRow][appleColumn]] = "food"
-    renderBoard()
-    // if (state.snakeBody.includes("food")) {
-    //     food()
-    // }
-}
-
 const renderState = () => {
     state.board = []
     state.score = 0
@@ -173,7 +180,8 @@ function tick () {
 // ********** Game opening Functions **********
 
 function newGame () {
-    const state = {
+    clearInterval(state.gameInterval)
+    state = {
         "score": 0,
         "board": [],
         "gameInterval": null,
@@ -183,9 +191,12 @@ function newGame () {
         },
         "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
     }
+    state.snakeHead = state.snakeBody[0],
     buildState ()
     food()
     setInitialSnake()
+    startElement.classList.remove("inactive")
+    gameOverElement.classList.add("inactive")
     start ()
 }
 

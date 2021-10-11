@@ -8,7 +8,7 @@ let state = {
         "col": 1,
         "row": 0,
     },
-    "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
+    "snakeBody": [ [6, 6], [5, 6], [4, 6], [3, 6], [2, 6], [1, 6], [0, 6] ],
 }
 
 // ********** DOM Selectors **********
@@ -202,7 +202,7 @@ function newGame () {
             "col": 1,
             "row": 0,
         },
-        "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
+        "snakeBody": [ [6, 6], [5, 6], [4, 6], [3, 6], [2, 6], [1, 6], [0, 6] ],
     }
     state.snakeHead = state.snakeBody[0],
     buildState ()

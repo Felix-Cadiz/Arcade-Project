@@ -3,6 +3,7 @@
 const state = {
     "score": 0,
     "board": [],
+    "gameInterval": null,
     "direction": {
         "col": 1,
         "row": 0,
@@ -25,8 +26,8 @@ let playAgainElement = document.getElementById("playAgainElement")
 
 // ********** innerHTML Lines **********
 
-function pressButtonStart () {
-    setInterval (tick, 1000 / fps) 
+const pressButtonStart = () => {
+    state.gameInterval = setInterval (tick, 1000 / fps)
 }
 
 const start = () => {
@@ -60,7 +61,7 @@ const score = () => {
 }
 
 function gameOverParameters() {
-    if (state.board[0] < 0 || state.board[0] > boardSpaces || state.board[1] < 0 || state.board[1] > boardSpaces) {
+    if (state.snakeHead[0] < undefined || state.snakeHead[0] > undefined) {
         gameOver()
     }
     // if (state.snakeBody.includes(state.snakeHead)) {
@@ -69,8 +70,11 @@ function gameOverParameters() {
 }
 
 function gameOver () {
+    state.GameInterval !== null
     gameOverElement.innerHTML = `<div>Game Over. Your final score is ${state.score}. <br> Would you like to play again?</div>`
 }
+
+
 
 // ********** Board Items **********
 
@@ -147,9 +151,7 @@ const food = () => {
     // if (state.snakeBody.includes("food")) {
     //     food()
     // }
-    
 }
-
 
 const renderState = () => {
     state.board = []
@@ -164,19 +166,21 @@ const renderState = () => {
 // ********** Logic ********** 
 
 function tick () {
-    console.log(tick)
-    playerSnake ()
+    // console.log(tick)
     renderBoard ()
+    playerSnake ()
 }
-
 
 // ********** Game opening Functions **********
 
 function newGame () {
-    clearInterval(setInterval)
+    // if (state.GameInterval !== null) {
+    //     clearInterval(state.gameInterval)
+    // }
     const state = {
         "score": 0,
         "board": [],
+        "gameInterval": null,
         "direction": {
             "col": 1,
             "row": 0,
@@ -184,8 +188,8 @@ function newGame () {
         "snakeBody": [ [3, 6], [2, 6], [1, 6], [0, 6] ],
     }
     buildState ()
-    setInitialSnake()
     food()
+    setInitialSnake()
     start ()
 }
 

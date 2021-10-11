@@ -47,7 +47,6 @@ const increaseSpeed = () => {
 const playAgain = () => {
     playAgainElement.innerHTML = "Play Again?"
     document.body.appendChild(playAgainElement)
-    playAgainElement.addEventListener("click", newGame)
 }
 
 const score = () => {
@@ -61,7 +60,7 @@ const score = () => {
 }
 
 function gameOverParameters() {
-    if (state.snakeHead[0] < undefined || state.snakeHead[0] > undefined) {
+    if (state.snakeHead[0] === undefined || state.snakeHead[1] === undefined) {
         gameOver()
     }
     // if (state.snakeBody.includes(state.snakeHead)) {
@@ -70,7 +69,7 @@ function gameOverParameters() {
 }
 
 function gameOver () {
-    state.GameInterval !== null
+    state.gameInterval = null
     gameOverElement.innerHTML = `<div>Game Over. Your final score is ${state.score}. <br> Would you like to play again?</div>`
 }
 
@@ -174,9 +173,6 @@ function tick () {
 // ********** Game opening Functions **********
 
 function newGame () {
-    // if (state.GameInterval !== null) {
-    //     clearInterval(state.gameInterval)
-    // }
     const state = {
         "score": 0,
         "board": [],
@@ -195,7 +191,9 @@ function newGame () {
 
 newGame()
 
-// ********** Event Listeners for Movement **********
+// ********** Event Listeners **********
+
+playAgainElement.addEventListener("click", newGame)
 
 document.addEventListener("keydown", function (event) {
     // console.log(event.code)
